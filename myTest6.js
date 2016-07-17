@@ -37,5 +37,11 @@ describe ("Testing the JavaScript on the Zoo Test Site", function() {
         element(by.css('[id="title"]')).getText().then(function(text){
             console.log(text);
         });
+
+        // Chain for a more precice selection
+        // This example specifically selects an h1 tag with an id that is 'title'.
+        element(by.css('h1[id="title"]')).getText().then(function(text){
+            console.log(text);
+        });
     });
 });
