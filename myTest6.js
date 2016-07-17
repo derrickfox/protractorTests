@@ -1,59 +1,41 @@
-describe ("Adopt an animal on the zoo website: ", function() {
+describe ("Testing the JavaScript on the Zoo Test Site", function() {
 
     beforeEach(function() {
-        browser.get("http://www.thetestroom.com/jswebapp");
+        browser.get("http://www.thetestroom.com/jswebapp/index.html");
     });
 
-    afterEach(function() {
-        console.log("'After' method executed");
-    });
+    it ("Should test by using CSS expressions", function() {
+        // Select by HTML tag.
+        element(by.css('input')).sendKeys("text test");
 
-    it ("Should be on the correct page.", function() {
-        browser.driver.getCurrentUrl().then(function(text){
+        // Select by CSS class.
+        // Don't forget to use the dot operator in front of the class name.
+        element(by.css('.ng-binding')).getText().then(function(text){
             console.log(text);
         });
-        expect(browser.getCurrentUrl()).toEqual("http://www.thetestroom.com/jswebapp/");
-    });
 
-    describe ("Should generate correct text.", function() {
+        // Select by ID.
+        // Don't forget to the use hash operator in front of the class name.
+        element(by.css('#continue_button')).click();
 
-        var textMessage;
+        // Chaining, multiple aruguments.
+        // Use for more precice selections. Combine selectors.
+        // Type the two selectors next to each other with no spaces.
+        // Here you can see an HTML selector and an ID selector used together.
+        element(by.css('button#continue_button')).click();
 
-        beforeEach(function() {
-            textMessage = "Hold on...you are being tested.";
+        // Chain nodes or child nodes.
+        // Select using child nodes.
+        // Use a space to denote a child node.
+        element(by.css('table td a')).getText().then(function(text){
+            console.log(text);
         });
 
-        it ("Should check for correct text.", function(){
-            element(by.model("person.name")).sendKeys(textMessage);
-            element(by.binding("person.name")).getText().then(function(text) {
-                expect(text).toEqual("Hold on...you are being tested.");
-            });
+        // Select by Attribute of an HTML tag.
+        // Pass an attribute inside of the square braces.
+        // This example uses the 'id' attribute.
+        element(by.css('[id="title"]')).getText().then(function(text){
+            console.log(text);
         });
-    });
-
-    describe ("Should check the correct number of items in drop down menu.", function() {
-        var lengthOfItems;
-
-        beforeEach(function(){
-            lengthOfItems = 4;
-        });
-
-        it("Should check number of items.", function(){
-            element(by.buttonText("CONTINUE")).click();
-            element(by.model("animal")).$('[value="1"]').click();
-
-            element.all(by.css(".ng-pristine option")).then(function(items) {
-                expect(items.length).toBe(4);
-                expect(items[1].getText()).toBe("George the Turtle");
-            });
-
-            element(by.buttonText("CONTINUE")).click();
-        });
-    });
-
-    it ("Should check user is on the thank you page.", function() {
-        element(by.buttonText("CONTINUE")).click();
-        element(by.buttonText("CONTINUE")).click();
-        expect(browser.getCurrentUrl()).toContain("confirm");
     });
 });
